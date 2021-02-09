@@ -11,15 +11,22 @@ router.get("/books",async(req,res)=>{
 });
 
 router.post("/books",async(req,res)=>{
+    try {
+        
+        const book = new Book({
+            name:req.body.name,
+            qty:req.body.qty,
+            authors:req.body.authors,
+            address:req.body.address
+        });
 
-    const book = new Book({
-        name:req.body.name,
-        qty:req.body.qty,
-        owner:req.body.owner
-    });
-
-    await book.save();
-    res.send(book);
+        await book.save();
+        res.send(book);
+        
+    } catch (error) {
+        res.status(404).send(error);
+     }
+        
 });
 
 router.patch("/books/:id",async(req,res)=>{
